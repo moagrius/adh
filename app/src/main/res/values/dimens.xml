@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-  <!-- pure grid -->
+  <!-- grid -->
   <dimen name="baseline">10dp</dimen>
   <dimen name="baseline_half">5dp</dimen>
   <dimen name="baseline_2x">20dp</dimen>

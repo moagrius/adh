@@ -16,9 +16,9 @@ import com.google.gson.reflect.TypeToken;
 
 import java.util.List;
 
-import adh.com.places.PlaceActivity;
 import adh.com.places.R;
 import adh.com.places.utils.Files;
+import adh.com.places.venues.VenueDetailActivity;
 
 public class MapActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -34,7 +34,7 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
     String compressedMarkersJson = getIntent().getStringExtra(EXTRA_MARKERS);
     if (compressedMarkersJson != null) {
       String markersJson = Files.uncompress(compressedMarkersJson);
-      mMarkerInfoList = new Gson().fromJson(markersJson, new TypeToken<List<MarkerInfo>>(){}.getType());
+      mMarkerInfoList = new Gson().fromJson(markersJson, new TypeToken<List<MarkerInfo>>() {}.getType());
     }
     SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
     mapFragment.getMapAsync(this);
@@ -55,17 +55,18 @@ public class MapActivity extends FragmentActivity implements OnMapReadyCallback 
 
   private void addMarker(MarkerInfo info) {
     LatLng position = new LatLng(info.getLatitude(), info.getLongitude());
-    MarkerOptions markerOptions = new MarkerOptions()
-        .position(position)
-        .title(info.getName());
+    MarkerOptions markerOptions = new MarkerOptions().position(position).title(info.getName());
     Marker marker = mMap.addMarker(markerOptions);
     marker.setTag(info);
   }
 
   public void onInfoWindowClick(Marker marker) {
     MarkerInfo info = (MarkerInfo) marker.getTag();
-    Intent intent = new Intent(this, PlaceActivity.class);
-    intent.putExtra(PlaceActivity.EXTRA_VENUE_IDENTIFIER, info.getIdentifier());
+    if (info == null) {
+      return;
+    }
+    Intent intent = new Intent(this, VenueDetailActivity.class);
+    intent.putExtra(VenueDetailActivity.EXTRA_VENUE_IDENTIFIER, info.getIdentifier());
     startActivity(intent);
   }
 

@@ -4,8 +4,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.Typeface;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +15,12 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-import adh.com.places.PlaceActivity;
+import adh.com.places.BaseActivity;
 import adh.com.places.PlacesApplication;
 import adh.com.places.R;
-import adh.com.places.search.models.Venue;
-import adh.com.places.search.models.VenueCategory;
+import adh.com.places.models.Venue;
+import adh.com.places.models.VenueCategory;
+import adh.com.places.venues.VenueDetailActivity;
 
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItemHolder> {
 
@@ -59,13 +60,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItem
       holder.favoriteView.setImageResource(favoriteIconResourceId);
       if (venue.getVenueCategories() != null && !venue.getVenueCategories().isEmpty()) {
         VenueCategory category = venue.getVenueCategories().get(0);
-        Log.d("ADH", "found icon: " + category.getUrl());
         application.getImageLoader().load(category.getUrl()).into(holder.iconView);
         String categoryLabel = resources.getString(R.string.template_category, category.getName());
         holder.categoryView.setText(categoryLabel);
       }
     } catch (ArrayIndexOutOfBoundsException e) {
-      Log.e("ADH", "item not found in recycler");
+      broadcastError(holder.itemView.getContext(), "Index out of bounds, no venue found at this position");
     }
   }
 
@@ -74,36 +74,36 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchItem
     return mItems.size();
   }
 
-  private View.OnClickListener mRowClickListener = new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-      Integer position = (Integer) v.getTag();
-      if (position != null) {
-        try {
-          Venue venue = mItems.get(position);
-          Intent intent = new Intent(v.getContext(), PlaceActivity.class);
-          intent.putExtra(PlaceActivity.EXTRA_VENUE_IDENTIFIER, venue.getId());
-          v.getContext().startActivity(intent);
-        } catch (ArrayIndexOutOfBoundsException e) {
-          // position not in bounds
-        }
+  private void broadcastError(Context context, String message) {
+    Intent intent = new Intent(BaseActivity.INTENT_ERROR);
+    intent.putExtra(BaseActivity.EXTRA_ERROR_MESSAGE, message);
+    LocalBroadcastManager.getInstance(context).sendBroadcast(intent);
+  }
+
+  private View.OnClickListener mRowClickListener = v -> {
+    Integer position = (Integer) v.getTag();
+    if (position != null) {
+      try {
+        Venue venue = mItems.get(position);
+        Intent intent = new Intent(v.getContext(), VenueDetailActivity.class);
+        intent.putExtra(VenueDetailActivity.EXTRA_VENUE_IDENTIFIER, venue.getId());
+        v.getContext().startActivity(intent);
+      } catch (ArrayIndexOutOfBoundsException e) {
+        broadcastError(v.getContext(), "Index out of bounds, no venue found at this position");
       }
     }
   };
 
-  private View.OnClickListener mFavoriteClickListener = new View.OnClickListener() {
-    @Override
-    public void onClick(View v) {
-      Integer position = (Integer) v.getTag();
-      if (position != null) {
-        try {
-          Venue venue = mItems.get(position);
-          PlacesApplication application = PlacesApplication.from(v.getContext());
-          application.getFavoritesManager().toggle(venue.getId());
-          notifyItemChanged(position);
-        } catch (ArrayIndexOutOfBoundsException e) {
-          // bad position
-        }
+  private View.OnClickListener mFavoriteClickListener = v -> {
+    Integer position = (Integer) v.getTag();
+    if (position != null) {
+      try {
+        Venue venue = mItems.get(position);
+        PlacesApplication application = PlacesApplication.from(v.getContext());
+        application.getFavoritesManager().toggle(venue.getId());
+        notifyItemChanged(position);
+      } catch (ArrayIndexOutOfBoundsException e) {
+        broadcastError(v.getContext(), "Index out of bounds, no venue found at this position");
       }
     }
   };

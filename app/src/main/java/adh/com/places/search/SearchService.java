@@ -1,7 +1,7 @@
 package adh.com.places.search;
 
-import adh.com.places.search.models.SearchResponse;
-import adh.com.places.search.models.SingleVenueResponse;
+import adh.com.places.models.SearchResponse;
+import adh.com.places.models.SingleVenueResponse;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

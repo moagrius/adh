@@ -28,7 +28,7 @@
       </intent-filter>
     </activity>
 
-    <activity android:name=".PlaceActivity" />
+    <activity android:name=".venues.VenueDetailActivity" />
 
     <activity
         android:name=".map.MapActivity"

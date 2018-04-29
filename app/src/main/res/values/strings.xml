@@ -1,8 +1,14 @@
 <resources>
+  <!-- libraries -->
+  <!-- clearly not secure -->
+  <string name="google_maps_key" templateMergeStrategy="preserve" translatable="false">AIzaSyCvYwUH6O48Bv1vRWlq1drsNi_TbCXAAvs</string>
+  <!-- app (put app values last because then you can use quick extract to append) -->
   <string name="app_name">Places</string>
   <string name="title_activity_map">Map</string>
   <string name="title_activity_search">Search</string>
   <string name="title_activity_detail">Info</string>
   <string name="template_category">Category: %1$s</string>
   <string name="template_distance">%1$.2fkm from city center</string>
+  <string name="search_label">Search…</string>
+  <string name="map_content_description">Map to venue</string>
 </resources>
