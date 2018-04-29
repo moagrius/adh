@@ -5,7 +5,7 @@ import java.io.IOException;
 
 public class TestUtils {
 
-  private static final String ASSET_PATH = "../app/src/main/assets/";
+  private static final String ASSET_PATH = "../app/src/test/assets/";
 
   public static String getStringFromAssetsFile(String name) {
     File file = new File(ASSET_PATH + name);

@@ -10,7 +10,11 @@ import retrofit2.http.Query;
 public interface SearchService {
 
   @GET("venues/{identifier}")
-  Call<SingleVenueResponse> fetch(@Path("identifier") String identifier);
+  Call<SingleVenueResponse> fetch(
+      @Path("identifier") String identifier,
+      @Query("client_id") String clientId,
+      @Query("client_secret") String clientSecret,
+      @Query("v") String version);
 
   @GET("venues/search")
   Call<SearchResponse> search(

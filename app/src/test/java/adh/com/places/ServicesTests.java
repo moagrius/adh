@@ -50,7 +50,7 @@ public class ServicesTests {
 
   @Test
   public void detailFetch_returnsResult() throws IOException {
-    Call<SingleVenueResponse> call = mApplication.getSearchService().fetch(null);
+    Call<SingleVenueResponse> call = mApplication.getSearchService().fetch(null, null, null);
     Response<SingleVenueResponse> response = call.execute();
     Venue venue = response.body().getVenue();
     assertEquals("51a81f83498e28b902053728", venue.getId());

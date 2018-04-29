@@ -70,6 +70,9 @@ public class VenueDetailActivity extends BaseActivity {
     mPhoneView.setTypeface(futura);
     mAddressView.setTypeface(garamond);
     mDescriptionView.setTypeface(garamond);
+    if (application.getFavoritesManager().contains(mVenueIdentifier)) {
+      mFavoriteView.setImageResource(R.drawable.ic_fav);
+    }
   }
 
   private void toggleFavorite(View view) {
@@ -95,7 +98,12 @@ public class VenueDetailActivity extends BaseActivity {
   }
 
   private void fetch() {
-    PlacesApplication.from(this).getSearchService().fetch(mVenueIdentifier).enqueue(mFetchVenueCallback);
+    PlacesApplication.from(this).getSearchService().fetch(
+        mVenueIdentifier,
+        PlacesApplication.FS_CLIENT_ID,
+        PlacesApplication.FS_CLIENT_SECRET,
+        PlacesApplication.FS_VERSION
+    ).enqueue(mFetchVenueCallback);
   }
 
   private Callback<SingleVenueResponse> mFetchVenueCallback = new Callback<SingleVenueResponse>() {

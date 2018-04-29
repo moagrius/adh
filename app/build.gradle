@@ -73,19 +73,5 @@ dependencies {
   testImplementation "org.robolectric:shadows-support-v4:$versionRobolectricModules"
   testImplementation "org.robolectric:shadows-httpclient:$versionRobolectricModules"
 
-  // Instrumentation Testing Dependencies
-  androidTestImplementation 'com.google.android.apps.common.testing.accessibility.framework:accessibility-test-framework:2.1'
-
-  // http://g.co/androidstudio/app-test-app-conflict
-  androidTestImplementation "com.android.support:appcompat-v7:$versionAndroidSupport"
-  androidTestImplementation "com.android.support:recyclerview-v7:$versionAndroidSupport"
-  androidTestImplementation "com.android.support:design:$versionAndroidSupport"
-  androidTestImplementation "com.android.support:support-annotations:$versionAndroidSupport"
-  androidTestImplementation "com.android.support.test.espresso:espresso-core:$versionEspresso"
-  androidTestImplementation "com.android.support.test.espresso:espresso-intents:$versionEspresso"
-  androidTestImplementation "com.android.support.test.espresso:espresso-contrib:$versionEspresso"
-  androidTestImplementation "com.android.support.test.espresso:espresso-web:$versionEspresso"
-  androidTestImplementation "com.squareup.okhttp3:okhttp:$versionOkHttp"
-  androidTestImplementation "com.android.support.test:runner:$versionTestRunner"
 
 }

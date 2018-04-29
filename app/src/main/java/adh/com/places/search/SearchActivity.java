@@ -34,21 +34,16 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+/**
+ * TODO:
+ * we should probably have either a "load more" as the final row in the recycler, or better yet an "endless" adapter
+ * that fetches when it looks like we're getting close to the end.  i have an exaple on my github: https://github.com/moagrius/EndlessRecyclerView
+ */
 public class SearchActivity extends BaseActivity {
 
-  // so these are pretty obvious as-is.  with proguard, they names would be obfuscated but still
-  // trivial to find.  some would argue they should be in a keystore, but while it's possible to spend
-  // a great deal of time making it more of a hassle, in my opinion there's not much you can do
-  // once a secret touches the client to be truly secure.  in a live app i'd probably make more effort
-  // than this.
-  private static final String FS_CLIENT_ID = "D1P1401XOX1EJ21YWZNVLLPXG5FOG3S55NWWYUKHEFYGYXYQ";
-  private static final String FS_CLIENT_SECRET = "MCQRCCSQTDAUSILNQTBIP3EKUQZFVJUW3VCHYRAMQ05CU2RP";
-
-  private static final String FS_LATLNG = Austin.LATLNG;
-  private static final String FS_VERSION = "20180425";
   private static final short FS_DEFAULT_LIMIT = 20;
 
-  private static final short TYPEAHEAD_DELAY = 250;
+  private static final short TYPEAHEAD_DELAY = 500;
   private static final short MINIMUM_QUERY_LENGTH = 4;
 
   private EditText mEditText;
@@ -128,7 +123,12 @@ public class SearchActivity extends BaseActivity {
     if (mPendingRequest != null) {
       mPendingRequest.cancel();
     }
-    mPendingRequest = PlacesApplication.from(this).getSearchService().search(FS_CLIENT_ID, FS_CLIENT_SECRET, FS_LATLNG, query, FS_DEFAULT_LIMIT, FS_VERSION);
+    mPendingRequest = PlacesApplication.from(this).getSearchService().search(
+        PlacesApplication.FS_CLIENT_ID,
+        PlacesApplication.FS_CLIENT_SECRET,
+        Austin.LATLNG, query,
+        FS_DEFAULT_LIMIT,
+        PlacesApplication.FS_VERSION);
     mPendingRequest.enqueue(mSearchCallback);
     showState();
   }
@@ -177,7 +177,9 @@ public class SearchActivity extends BaseActivity {
 
     @Override
     public void onFailure(Call<SearchResponse> call, Throwable t) {
-      showError("There was an error performing this search: " + t.getLocalizedMessage());
+      if (!call.isCanceled()) {
+        showError("There was an error performing this search: " + t.getLocalizedMessage());
+      }
       onFetchResolved();
     }
   };

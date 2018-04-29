@@ -18,6 +18,15 @@ public class PlacesApplication extends Application {
 
   public static final String SHARED_PREFS_FILE = "prefs";
 
+  // so these are pretty obvious as-is.  with proguard, they names would be obfuscated but still
+  // trivial to find.  some would argue they should be in a keystore, but while it's possible to spend
+  // a great deal of time making it more of a hassle, in my opinion there's not much you can do
+  // once a secret touches the client to be truly secure.  in a live app i'd probably make more effort
+  // than this.
+  public static final String FS_CLIENT_ID = "D1P1401XOX1EJ21YWZNVLLPXG5FOG3S55NWWYUKHEFYGYXYQ";
+  public static final String FS_CLIENT_SECRET = "MCQRCCSQTDAUSILNQTBIP3EKUQZFVJUW3VCHYRAMQ05CU2RP";
+  public static final String FS_VERSION = "20180425";
+
   private TypeManager mTypeManager;
   private SearchService mSearchService;
   private Picasso mImageLoader;
