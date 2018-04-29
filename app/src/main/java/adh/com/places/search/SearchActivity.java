@@ -62,7 +62,7 @@ public class SearchActivity extends BaseActivity {
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setContentView(adh.com.places.R.layout.activity_search);
+    setContentView(R.layout.activity_search);
 
     mEditText = findViewById(R.id.search);
     mFab = findViewById(R.id.fab);

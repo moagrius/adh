@@ -1,4 +1,4 @@
-package adh.com.places;
+package adh.com.places.utils;
 
 import java.io.IOException;
 

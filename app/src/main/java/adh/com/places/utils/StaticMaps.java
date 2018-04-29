@@ -6,6 +6,7 @@ import adh.com.places.map.Austin;
 
 public class StaticMaps {
 
+  // again, clearly not secure, see other comments about client secrets
   private static final String GOOGLE_STATIC_MAPS_API_KEY = "AIzaSyCvYwUH6O48Bv1vRWlq1drsNi_TbCXAAvs";
   private static final String BASE_URL = "https://maps.googleapis.com/maps/api/staticmap?";
 

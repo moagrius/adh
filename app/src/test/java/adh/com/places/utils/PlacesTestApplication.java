@@ -1,18 +1,14 @@
-package adh.com.places;
+package adh.com.places.utils;
+
+import android.app.Application;
 
 import org.robolectric.annotation.Implementation;
-import org.robolectric.annotation.Implements;
-import org.robolectric.annotation.RealObject;
 
 import adh.com.places.search.SearchService;
 
-@Implements(PlacesApplication.class)
-public class ShadowPlacesApplication {
+public class PlacesTestApplication extends Application {
 
   private MockSearchService mMockSearchService = new MockSearchService();
-
-  @RealObject
-  private PlacesApplication mRealPlacesApplication;
 
   @Implementation
   public SearchService getSearchService() {

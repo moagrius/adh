@@ -14,7 +14,9 @@ import java.io.IOException;
 import java.util.List;
 
 import adh.com.places.models.SearchResponse;
+import adh.com.places.models.SingleVenueResponse;
 import adh.com.places.models.Venue;
+import adh.com.places.utils.PlacesTestApplication;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -22,25 +24,37 @@ import static junit.framework.Assert.assertEquals;
 
 @RunWith(RobolectricTestRunner.class)
 @Config(application = PlacesTestApplication.class)
-public class ExampleUnitTest {
+public class ServicesTests {
+
+  private PlacesTestApplication mApplication;
 
   @Before
   public void setUp() throws IOException {
-
+    Activity activity = Robolectric.setupActivity(Activity.class);
+    mApplication = (PlacesTestApplication) activity.getApplication();
   }
 
   @After
   public void shutDown() throws IOException {
-
+    mApplication = null;
   }
 
   @Test
   public void listFetch_returnsResults() throws IOException {
-    Activity activity = Robolectric.setupActivity(Activity.class);
-    PlacesTestApplication application = (PlacesTestApplication) activity.getApplication();
-    Call<SearchResponse> call = application.getSearchService().search(null, null, null, null, 0, null);
+    Call<SearchResponse> call = mApplication.getSearchService().search(null, null, null, null, 0, null);
     Response<SearchResponse> response = call.execute();
     List<Venue> venues = response.body().getResponse().getVenues();
-    assertEquals(venues.size(), 20);
+    assertEquals(20, venues.size());
+    assertEquals("51a81f83498e28b902053728", venues.get(0).getId());
   }
+
+  @Test
+  public void detailFetch_returnsResult() throws IOException {
+    Call<SingleVenueResponse> call = mApplication.getSearchService().fetch(null);
+    Response<SingleVenueResponse> response = call.execute();
+    Venue venue = response.body().getVenue();
+    assertEquals("51a81f83498e28b902053728", venue.getId());
+    assertEquals("Chick-fil-A", venue.getName());
+  }
+
 }
