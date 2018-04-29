@@ -1,39 +1,29 @@
 package adh.com.places;
 
-import android.app.Activity;
+import android.util.Log;
 
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.robolectric.RobolectricTestRunner;
 import org.robolectric.RuntimeEnvironment;
-import org.robolectric.annotation.Config;
+import org.robolectric.TestLifecycleApplication;
 
 import java.io.IOException;
-import java.util.List;
+import java.lang.reflect.Method;
 
-import adh.com.places.models.SearchResponse;
-import adh.com.places.models.Venue;
 import adh.com.places.search.SearchService;
 import adh.com.places.utils.Files;
 import okhttp3.mockwebserver.Dispatcher;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import okhttp3.mockwebserver.RecordedRequest;
-import retrofit2.Call;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-import static junit.framework.Assert.assertEquals;
+public class PlacesTestApplication extends PlacesApplication implements TestLifecycleApplication {
 
-@Config(manifest=Config.NONE)
-@RunWith(RobolectricTestRunner.class)
-public class ExampleUnitTest {
+  @Override
+  public void onCreate() {
 
-  private Activity mActivity;
-  private MockWebServer mMockWebServer;
-  private SearchService mSearchService;
+  }
+
   private Dispatcher mDispatcher = new Dispatcher() {
     @Override
     public MockResponse dispatch(RecordedRequest request) throws InterruptedException {
@@ -42,7 +32,7 @@ public class ExampleUnitTest {
           .addHeader("Cache-Control", "no-cache")
           .setResponseCode(200);
       String path = request.getPath();
-      System.out.println("path=" + path);
+      Log.d("ADH", "path=" + path);
       if (path.contains("venues/search")){
         try {
           response.setBody(Files.readFileFromAssets(RuntimeEnvironment.application, "list.json"));
@@ -63,27 +53,41 @@ public class ExampleUnitTest {
     }
   };
 
-  @Before
-  public void setUp() throws IOException {
-    //mActivity = Robolectric.setupActivity(.class);
-    mMockWebServer = new MockWebServer();
-    mMockWebServer.setDispatcher(mDispatcher);
-    mSearchService = new Retrofit.Builder()
-        .baseUrl(mMockWebServer.url("/"))
-        .addConverterFactory(GsonConverterFactory.create())
-        .build()
-        .create(SearchService.class);
+  private MockWebServer mMockWebServer;
+  private SearchService mMockSearchService;
+
+  public SearchService getSearchService() {
+    if (mMockSearchService == null) {
+      mMockSearchService = new Retrofit.Builder()
+          .baseUrl(getMockWebServer().url("/"))
+          .addConverterFactory(GsonConverterFactory.create())
+          .build()
+          .create(SearchService.class);
+    }
+    return mMockSearchService;
   }
 
-  @After
-  public void shutDown() throws IOException {
-    mMockWebServer.shutdown();
+  public MockWebServer getMockWebServer() {
+    if (mMockWebServer == null) {
+      mMockWebServer = new MockWebServer();
+      mMockWebServer.setDispatcher(mDispatcher);
+    }
+    return mMockWebServer;
   }
 
-  @Test
-  public void listFetch_returnsResults() throws IOException {
-    Call<SearchResponse> call = mSearchService.search(null, null, null, null, 0, null);
-    List<Venue> venues = call.execute().body().getResponse().getVenues();
-    assertEquals(venues.size(), 20);
+  @Override
+  public void beforeTest(Method method) {
+
   }
+
+  @Override
+  public void prepareTest(Object test) {
+
+  }
+
+  @Override
+  public void afterTest(Method method) {
+
+  }
+
 }

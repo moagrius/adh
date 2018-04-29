@@ -17,6 +17,9 @@ android {
       proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
     }
   }
+  testOptions {
+    unitTests.returnDefaultValues = true
+  }
   compileOptions {
     targetCompatibility 1.8
     sourceCompatibility 1.8
@@ -57,18 +60,14 @@ dependencies {
   implementation "com.squareup.retrofit2:converter-gson:$versionRetrofit"
 
   // mocking server responses
-  implementation "com.squareup.okhttp3:mockwebserver:$versionMockWebServer"
+  testImplementation "com.squareup.okhttp3:mockwebserver:$versionMockWebServer"
 
   // junit testing
   testImplementation 'junit:junit:4.12'
 
-  // networking
-  testImplementation "com.squareup.okhttp3:okhttp:$versionOkHttp"
-
   // unit testing framework
   testImplementation "org.robolectric:robolectric:$versionRobolectric"
   testImplementation "org.robolectric:shadows-support-v4:$versionRobolectricModules"
-  testImplementation "org.robolectric:shadows-multidex:$versionRobolectricModules"
   testImplementation "org.robolectric:shadows-httpclient:$versionRobolectricModules"
 
   // Instrumentation Testing Dependencies
