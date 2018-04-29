@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+  <!-- pure grid -->
+  <dimen name="baseline">10dp</dimen>
+  <dimen name="baseline_half">5dp</dimen>
+  <dimen name="baseline_2x">20dp</dimen>
+  <dimen name="baseline_3x">30dp</dimen>
+  <dimen name="baseline_4x">40dp</dimen>
+  <dimen name="baseline_5x">50dp</dimen>
+  <dimen name="baseline_10x">100dp</dimen>
+  <dimen name="thin_stroke">1dp</dimen>
+  <dimen name="thick_stroke">2dp</dimen>
+  <!-- fonts -->
+  <dimen name="font_baseline">16sp</dimen>
+  <dimen name="font_large">20sp</dimen>
+  <dimen name="font_input">20sp</dimen>
+  <dimen name="font_heading">36sp</dimen>
+  <dimen name="font_subheading">24sp</dimen>
+  <dimen name="font_title">24sp</dimen>
+  <dimen name="font_mini">12sp</dimen>
+</resources>

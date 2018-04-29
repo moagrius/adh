@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+<LinearLayout
+              android:orientation="vertical"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+  <FrameLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content">
+
+  <EditText
+      android:id="@+id/search"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:padding="@dimen/baseline_2x"
+      android:textSize="@dimen/font_input"
+      android:hint="Search..." />
+
+    <ProgressBar
+        android:id="@+id/spinner"
+        android:layout_width="@dimen/baseline_2x"
+        android:layout_height="@dimen/baseline_2x"
+        android:indeterminate="true"
+        android:layout_marginEnd="@dimen/baseline_2x"
+        android:layout_gravity="center_vertical|end"
+        android:visibility="gone" />
+
+  </FrameLayout>
+
+  <android.support.v7.widget.RecyclerView
+      android:id="@+id/recyclerview"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_weight="1" />
+
+</LinearLayout>
+
+  <android.support.design.widget.FloatingActionButton
+      android:id="@+id/fab"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="end|bottom"
+      android:layout_margin="@dimen/baseline_2x"
+      android:visibility="gone"
+      android:src="@drawable/ic_map" />
+
+</android.support.design.widget.CoordinatorLayout>

@@ -1,0 +1,8 @@
+<resources>
+  <string name="app_name">Places</string>
+  <string name="title_activity_map">Map</string>
+  <string name="title_activity_search">Search</string>
+  <string name="title_activity_detail">Info</string>
+  <string name="template_category">Category: %1$s</string>
+  <string name="template_distance">%1$.2fkm from city center</string>
+</resources>
