@@ -6,6 +6,7 @@ There's not a ton to note - I tried to stick to the spec where possible.  One sm
 
 Other random notes:
 
+1.  I did not do any save/restore instance state work.  I just ran out of time before I thought about it.  I've set the Search and Map Activities to no handle size and orientation change (which is arguably acceptable), while the Detail view is not, and does recreate on orientation change, but should handle most of it's own recreation work.  Still, save and restore are important for things like when an app is background for days and resumed by the user, who rightfully expects to return to the last thing they were doing.
 1.  Minimum API is 5.0 (L).  This is almost 90% of worldwide users now (https://developer.android.com/about/dashboards/), but in general I'd probably advise going back as far as 4.0.  There's a lot of freebies when your minimum is 5.0, and 4.0 sometimes feels like it requires almost parallel development, so if we can get away with later APIs, that's great.
 1.  Typeahead is on a 500ms debounce.  Query minimum is 4 characters, you'll see a Snack if you haven't achieved the minimum.
 1.  Error handling is pretty basic - basically all errors are caught and a message is presented to the user as a Snack.
